@@ -1,1 +1,1 @@
-https://dialogs.yandex.ru/share?key=KcOJSgVZ8kbvWuUtcyHY
+https://dialogs.yandex.ru/share?key=ZTnx5fSYISmiFZwoAXwV
