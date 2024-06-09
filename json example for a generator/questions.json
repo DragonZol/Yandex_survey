@@ -1,0 +1,201 @@
+[
+  {
+    "question_of_interview_id": 8,
+    "question_id": 15,
+    "question_name": "Какой пол мне указать в анкете?",
+    "question_description": null,
+    "priority": 2,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 7,
+        "option_text": "Мужской"
+      },
+      {
+        "option_id": 8,
+        "option_text": "Женский"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 4,
+    "question_id": 4,
+    "question_name": "Являетесь ли вы студентом?",
+    "question_description": null,
+    "priority": 4,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 1,
+    "question_id": 1,
+    "question_name": "Если Вы студент, подскажите пожалуйста где проживаете в настоящее время?",
+    "question_description": "",
+    "priority": 6,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 1,
+        "option_text": "в общежити"
+      },
+      {
+        "option_id": 2,
+        "option_text": "снимаю квартиру"
+      },
+      {
+        "option_id": 3,
+        "option_text": "проживаю с родителями"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 2,
+    "question_id": 2,
+    "question_name": "Достаточная ли у Вас по Вашему мнению физическая активность?",
+    "question_description": null,
+    "priority": 10,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 6,
+    "question_id": 9,
+    "question_name": "Слышали ли вы от матери или отца, что они принимают лекарства от высокого давления?",
+    "question_description": null,
+    "priority": 11,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      },
+      {
+        "option_id": 6,
+        "option_text": "Не знаю"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 5,
+    "question_id": 8,
+    "question_name": "Имеется ли у матери или отца повышенное артериальное давление?",
+    "question_description": null,
+    "priority": 11,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      },
+      {
+        "option_id": 6,
+        "option_text": "Не знаю"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 7,
+    "question_id": 10,
+    "question_name": "Были ли у ваших родителей, бабушек, дедушек инфаркты, инсульты, случаи внезапной смерти в возрасте <55 лет для мужчин и в возрасте <65 лет для женщин?",
+    "question_description": null,
+    "priority": 11,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      },
+      {
+        "option_id": 6,
+        "option_text": "Не знаю"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 12,
+    "question_id": 16,
+    "question_name": "Курите ли Вы в настоящее время?",
+    "question_description": "начала ветвления (Курите ли Вы в настоящее время?)",
+    "priority": 20,
+    "transition_type": 1,
+    "question_options": [
+      {
+        "option_id": 4,
+        "option_text": "Да"
+      },
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      }
+    ],
+    "question_conditions": null
+  },
+  {
+    "question_of_interview_id": 13,
+    "question_id": 17,
+    "question_name": "Вы курите сигареты или используете альтернативные системы нагревания табака?",
+    "question_description": "",
+    "priority": 21,
+    "transition_type": 2,
+    "question_options": [
+      {
+        "option_id": 5,
+        "option_text": "Нет"
+      },
+      {
+        "option_id": 6,
+        "option_text": "Не знаю"
+      }
+    ],
+    "question_conditions": [
+      {
+        "operand_id": 2,
+        "operand_question_id": 12,
+        "operand_compare_type": 1,
+        "q_options": [
+          {
+            "option_id": 4,
+            "text": "Да"
+          }
+        ]
+      }
+    ]
+  }
+]

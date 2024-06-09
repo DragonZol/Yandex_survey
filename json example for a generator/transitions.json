@@ -1,0 +1,59 @@
+[
+  {
+    "question_id": 16,
+    "intent_id": "smoke",
+    "slots": [
+      {
+        "name": "var_smoke",
+        "values": [
+          {
+            "value": "yes_smoke",
+            "option_id": 28
+          },
+          {
+            "value": "no_smoke",
+            "option_id": 29
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 15,
+    "intent_id": "sex",
+    "slots": [
+      {
+        "name": "var_sex",
+        "values": [
+          {
+            "value": "male",
+            "option_id": 20
+          },
+          {
+            "value": "female",
+            "option_id": 21
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 4,
+    "intent_id": "stud",
+    "slots": [
+      {
+        "name": "var_stud",
+        "values": [
+          {
+            "value": "stud",
+            "option_id": 9
+          },
+          {
+            "value": "no_stud",
+            "option_id": 13
+          }
+        ]
+      }
+    ]
+  }
+]
