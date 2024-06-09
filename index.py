@@ -44,13 +44,13 @@ def get_state(event):
 # Функции для работы с вопросами и состояниями
 
 
-# # Этот вариант загрузки вопросов ещё в доработке
-# url1 = "http://51.250.4.123:5005/getInterviewStructure?id=1"
-# url2 = "http://51.250.4.123:5005/getInterviewCUI?id=1"
+# # Этот вариант загрузки вопросов из БД
+# url1 = "Здесь_URL_отправляемого_с_БД_json_файла_с_вопросами"
+# url2 = "Здесь_URL_отправляемого_с_БД_json_файла_с_переходами"
 # questions = load_questions_from_url(url1)
 # next_states = load_next_states_from_url(url1,url2)
 
-# # Вариант используемый сейчас
+# # Вариант используемый для тестирования
 questions = load_questions()
 next_states = load_next_states()
 
