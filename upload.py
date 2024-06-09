@@ -4,8 +4,8 @@ import requests
 def upload_json_to_yandex_disk(state):
     json_data = {'results': state}
     file_name = 'data.json'
-    yandex_disk_token = 'y0_AgAAAABNWZOrAAtrUQAAAAD9wo8DAACEP7UX46JHGKIS8dDwccA7sDbE7A'
-    upload_url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
+    yandex_disk_token = 'Здесь_нужно_вставить_токен_Яндекс_Диска'
+    upload_url = 'Здесь_нужно_вставить_URL_куда_хотите_отправить_информацию'
     headers = {'Authorization': f'OAuth {yandex_disk_token}'}
     params = {'path': file_name, 'overwrite': 'true'}
     files = {'file': json.dumps(json_data, ensure_ascii=False)}
@@ -22,7 +22,7 @@ def upload_json_to_yandex_disk(state):
 
 
 def upload_post(state):
-    url = 'https://functions.yandexcloud.net/d4ei2d94t39iaompfhs8'
+    url = 'Здесь_вставляете_URL_на_код_принимающий_json_отправки'
     headers = {'Content-Type': 'application/json'}
 
     try:
