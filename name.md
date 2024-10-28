@@ -1,176 +1,101 @@
-## Intents
+1. Создание "дружеской" игры учеником
+Когда ученик создает дружескую игру, это отличается от обычной игры, созданной учителем. В дружеской игре ученик сам может управлять параметрами игры и приглашать своих друзей через ключ доступа.
 
-### Intent ID: smoke
+Процесс:
+Создание новой игры:
+Когда ученик создает дружескую игру, в таблицу games добавляется новая запись.
+Поскольку это дружеская игра, поле is_friendly будет TRUE, и ученик должен указать ключ доступа.
+Пример записи в таблице games:
 
-**Грамматика:**
+INSERT INTO public.games (
+    name, description, game_mode, creator_id, category_id, is_friendly, max_players, start_time, status, access_key
+) VALUES (
+    'Моя дружеская игра', 'Игра для друзей', 'time_limited_individual', 4, 1, TRUE, 10, '2024-10-28 16:00:00', 'created', 'friend-game-key'
+);
+После этого ученики могут присоединяться к игре, используя ключ доступа.
+Присоединение игроков:
+Когда другие ученики присоединяются к дружеской игре, в таблицу game_participants добавляются записи для каждого участника.
+Пример:
 
-```
+INSERT INTO public.game_participants (game_id, user_id, score, status) VALUES (1, 5, 0, 'enrolled');
+Начало игры:
+Когда игра начинается, поле status в таблице games обновляется на 'ongoing':
 
-slots:
-    var_smoke:
-        source: $Smoke
-        type: Smoke
-root:
-    .* $smoke .*
+UPDATE public.games SET status = 'ongoing' WHERE id = 1;
+2. Создание реальной игры учителем
+Учитель создает игру для класса или группы учеников, которая может быть в различных режимах (индивидуальная, командная, на выживание и т.д.). Это официальные игры, которые могут влиять на рейтинг учеников.
 
-```
+Процесс:
+Создание игры:
+Учитель создает игру в таблице games. Поле is_friendly будет FALSE, так как это официальная игра.
+Пример:
 
-### Intent ID: sex
+INSERT INTO public.games (
+    name, description, game_mode, creator_id, category_id, is_friendly, max_players, start_time, total_rounds, status
+) VALUES (
+    'Историческая викторина', 'Игра по истории для 11 класса', 'time_limited_team', 2, 2, FALSE, 20, '2024-10-29 12:00:00', 5, 'created'
+);
+Присоединение участников:
+Ученики присоединяются к игре через ключ доступа или по приглашению учителя. Записи добавляются в таблицу game_participants.
+Пример:
 
-**Грамматика:**
+INSERT INTO public.game_participants (game_id, user_id, score, status) VALUES (2, 6, 0, 'enrolled');
+Командная игра:
+Если это командная игра, происходит распределение учеников по командам. Команды создаются в таблице teams, и каждому участнику назначается команда:
 
-```
+INSERT INTO public.teams (game_id, name, created_by, status) VALUES (2, 'Команда А', 2, 'active');
+UPDATE public.game_participants SET team_id = 1 WHERE user_id = 6;
+Начало игры:
+Игра начинается в указанное время, и статус игры обновляется на 'ongoing'.
+3. Турниры
+Турниры организуются учителем или администратором и могут включать несколько игр. Турниры могут длиться несколько дней и включать разные игровые режимы.
 
-slots:
-    var_sex:
-        source: $Sex
-        type: Sex
-root:
-    .* $sex .*
+Процесс:
+Создание турнира:
+Учитель или администратор создает турнир в таблице tournaments. Указывается описание турнира, даты начала и окончания:
 
-```
+INSERT INTO public.tournaments (name, description, start_date, end_date, created_by) VALUES (
+    'Математический турнир', 'Турнир по математике для 11-х классов', '2024-11-01 09:00:00', '2024-11-01 18:00:00', 1
+);
+Присоединение участников:
+Ученики присоединяются к турниру, и их участие регистрируется в таблице tournament_participants:
 
-### Intent ID: stud
+INSERT INTO public.tournament_participants (tournament_id, user_id, score, status) VALUES (1, 4, 0, 'enrolled');
+Процесс турнира:
+Турнир может состоять из нескольких игр. Каждая игра создается в таблице games и привязывается к турниру через таблицу tournament_games (если такая таблица существует).
+По мере завершения игр, результаты участников обновляются в таблице tournament_results.
+4. Процесс игры и сохранение результатов
+Во время игры участники отвечают на вопросы. В зависимости от режима игры (индивидуальный, командный, на выживание и т.д.) система должна отслеживать ответы и рассчитывать баллы.
 
-**Грамматика:**
+Процесс:
+Ответы участников:
+Когда участник отвечает на вопрос, ответ сохраняется в таблице game_logs. Вопросы могут быть разных типов (множественный выбор, текстовый ввод и т.д.), и правильность ответа проверяется на стороне приложения.
+Пример записи ответа:
 
-```
+INSERT INTO public.game_logs (game_id, user_id, question_id, answer, is_correct, score, timestamp) VALUES
+(1, 4, 1, '4', TRUE, 10, '2024-10-28 10:05:00');
+Обновление баллов:
+После ответа участника его баллы обновляются в таблице game_participants:
 
-slots:
-    var_stud:
-        source: $Stud
-        type: Stud
-root:
-    .* $stud .*
+UPDATE public.game_participants SET score = score + 10 WHERE game_id = 1 AND user_id = 4;
+Переход в следующий раунд:
+Если игра состоит из нескольких раундов (например, режим с ограниченным временем), по завершении раунда система сравнивает баллы участников и определяет, кто перейдет в следующий раунд. Это может быть реализовано в бизнес-логике приложения, а затем обновлено в БД:
 
-```
+UPDATE public.game_participants SET status = 'eliminated' WHERE game_id = 1 AND score < минимальный_порог;
+5. Определение победителей и завершение игры
+Когда игра или раунд завершены, система определяет победителя или победителей, в зависимости от режима игры.
 
-### Intent ID: choose_dom
+Процесс:
+Определение победителей:
+По завершении игры система анализирует результаты участников и определяет победителя, обновляя статус в game_results:
 
-**Грамматика:**
+INSERT INTO public.game_results (game_id, user_id, score, rank, status) VALUES (1, 4, 90, 1, 'winner');
+Завершение игры:
+Когда игра завершена, статус игры обновляется в таблице games:
 
-```
+UPDATE public.games SET status = 'completed' WHERE id = 1;
+Обновление рейтингов:
+По завершении игры результаты участников могут быть использованы для обновления их рейтингов в таблице rankings. Пример:
 
-slots:
-    var_dom:
-        source: $Dom
-        type: Dom
-root:
-    .* $choose_dom .*
-
-```
-
-### Intent ID: kyr
-
-**Грамматика:**
-
-```
-
-slots:
-    var_kyr:
-        source: $Kyr
-        type: Kyr
-root:
-    .* $kyr .*
-
-```
-
-### Intent ID: fio
-
-**Грамматика:**
-
-```
-
-slots:
-    slot_fio:
-        source: $fio
-        type: fio
-root:
-    .* $fio .*
-
-$fio:
-    $YANDEX.FIO
-
-```
-
-## Entities
-
-```
-
-entity Smoke:
-    lemma: true
-    values:
-        yes_smoke:
-            Курю
-            Иногда
-            Бывает
-            Дымлю
-            Немного
-            Да
-        no_smoke:
-            Никогда не курил
-            Не курю
-            Против этого
-            Не пробовал
-            Нет
-
-entity Sex:
-    lemma: true
-    values:
-        male:
-            Мужской пол
-            Мужской
-            Мужчина
-            Мужик
-            Парень
-            Мальчик
-            М
-        female:
-            Женский пол
-            Женский
-            Женщина
-            Мужик
-            Девушка
-            Девочка
-            Ж
-
-entity Stud:
-    lemma: true
-    values:
-        no_stud:
-            Не студент
-            Не учусь
-            Учусь в школе
-            Работаю
-            Нет
-        stud:
-            Недавно начал
-            Да
-            Студент
-            Учуcь
-            Обучаюсь в университете
-            Обучаюсь в университете
-
-entity Dom:
-    lemma: true
-    values:
-        ob:
-            общежитие
-            общага
-        kvar:
-            Квартира
-        rod:
-            Родители
-
-entity Kyr:
-    lemma: true
-    values:
-        cigarettes:
-            сигареты
-        vape:
-            вейп
-            парилка
-        icos:
-            айкос
-
-```
+INSERT INTO public.rankings (game_mode, user_id, category_id, total_score, category_score, rank_type) VALUES
+('time_limited_individual', 4, 1, 90, 90, 'class');
